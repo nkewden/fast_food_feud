@@ -25,6 +25,7 @@ const { data, categories, restaurants } = createDataSet()
 
 export function App() {
   const [selectedCatergory, setSelectedCatergory] = useState()
+  const [selectedRestaurants, setSelectedRestaurants] = useState()
 
   return (
     <main className="App">
@@ -33,14 +34,15 @@ export function App() {
         <div className="categories options">
           <h2 className="title">Categories</h2>
           {categories.map((cat) => {
+            let active = (cat == selectedCatergory ? true : false)
             return (
               <Chip
                 key={cat}
                 label={cat}
+                isActive={active}
                 onClick = {() => {
                   setSelectedCatergory(cat)
-                }}
-              />
+                }}/>
             )
           })}
         </div>
@@ -59,10 +61,16 @@ export function App() {
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
           <div className="restaurants options">{restaurants.map((rest) => {
+            let active = (rest == selectedRestaurants ? true : false)
             return (
               <Chip
                 key={rest}
                 label={rest}
+                isActive={active}
+                onClick = {() => {
+                  setSelectedRestaurants(rest)
+                }
+                }
               />
             )
           })}</div>
