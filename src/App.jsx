@@ -25,8 +25,8 @@ export const appInfo = {
 const { data, categories, restaurants } = createDataSet();
 
 export function App() {
-  const [currentCatergory, setcurrentCatergory] = useState("");
-  const [currentRestaurant, setcurrentRestaurant] = useState("");
+  const [currentCatergory, setcurrentCatergory] = useState(null);
+  const [currentRestaurant, setcurrentRestaurant] = useState(null);
   const [currentMenu, setCurrentMenu] = useState(null);
 
   let currentMenuItems = data.filter((obj) => {
@@ -36,7 +36,40 @@ export function App() {
     );
   });
 
-  console.log(currentMenuItems);
+  let instructions = "";
+
+  if (
+    currentCatergory == null &&
+    currentRestaurant == null &&
+    currentMenu == null
+  ) {
+    instructions = appInfo.instructions.start;
+  } else if (
+    currentCatergory != null &&
+    currentRestaurant == null &&
+    currentMenu == null
+  ) {
+    instructions = appInfo.instructions.onlyCategory;
+  } else if (
+    currentCatergory == null &&
+    currentRestaurant != null &&
+    currentMenu == null
+  ) {
+    instructions = appInfo.instructions.onlyRestaurant;
+  } else if (
+    currentCatergory != null &&
+    currentRestaurant != null &&
+    currentMenu == null
+  ) {
+    instructions = appInfo.instructions.noSelectedItem;
+  } else if (
+    currentCatergory != null &&
+    currentRestaurant != null &&
+    currentMenu != null
+  ) {
+    instructions = appInfo.instructions.allSelected;
+  }
+
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
@@ -95,7 +128,7 @@ export function App() {
           </div>
         </div>
 
-        <Instructions instructions={appInfo.instructions.start} />
+        <Instructions instructions={instructions} />
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
