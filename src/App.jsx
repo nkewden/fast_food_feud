@@ -5,6 +5,7 @@ import { createDataSet } from "./data/dataset"
 import "./App.css"
 import Chip from "./components/Chip/Chip"
 import { useState } from 'react';
+import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel"
 
 // don't move this!
 export const appInfo = {
@@ -24,9 +25,16 @@ export const appInfo = {
 const { data, categories, restaurants } = createDataSet()
 
 export function App() {
-  const [selectedCatergory, setSelectedCatergory] = useState()
-  const [selectedRestaurants, setSelectedRestaurants] = useState()
+  const [selectedCatergory, setSelectedCatergory] = useState("")
+  const [selectedRestaurants, setSelectedRestaurants] = useState("")
+  const [currentMenu, setCurrentMenu] = useState(null)
 
+  let currentMenuItems = data.filter((obj) => {
+    
+    return (obj.food_category === selectedCatergory && obj.restaurant === selectedRestaurants)
+  })
+
+  console.log(currentMenuItems)
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
@@ -83,11 +91,20 @@ export function App() {
         <div className="MenuDisplay display">
           <div className="MenuItemButtons menu-items">
             <h2 className="title">Menu Items</h2>
-            {/* YOUR CODE HERE */}
+            {currentMenuItems.map((menuItem) => {
+              return (<Chip 
+                key = {menuItem.item_name} 
+                label={menuItem.item_name} 
+                isActive={currentMenu === menuItem} 
+                onClick={() => 
+                  setCurrentMenu(menuItem)}/>)
+            })} 
           </div>
 
           {/* NUTRITION FACTS */}
-          <div className="NutritionFacts nutrition-facts">{/* YOUR CODE HERE */}</div>
+          <div className="NutritionFacts nutrition-facts">
+            {currentMenu != null && <NutritionalLabel item = {currentMenu}/>}
+            </div>
         </div>
 
         <div className="data-sources">
