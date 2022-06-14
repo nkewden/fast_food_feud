@@ -25,13 +25,13 @@ export const appInfo = {
 const { data, categories, restaurants } = createDataSet()
 
 export function App() {
-  const [selectedCatergory, setSelectedCatergory] = useState("")
-  const [selectedRestaurants, setSelectedRestaurants] = useState("")
+  const [currentCatergory, setcurrentCatergory] = useState("")
+  const [currentRestaurant, setcurrentRestaurant] = useState("")
   const [currentMenu, setCurrentMenu] = useState(null)
 
   let currentMenuItems = data.filter((obj) => {
     
-    return (obj.food_category === selectedCatergory && obj.restaurant === selectedRestaurants)
+    return (obj.food_category === currentCatergory && obj.restaurant === currentRestaurant)
   })
 
   console.log(currentMenuItems)
@@ -42,15 +42,18 @@ export function App() {
         <div className="categories options">
           <h2 className="title">Categories</h2>
           {categories.map((cat) => {
-            let active = (cat == selectedCatergory ? true : false)
+            let active = (cat == currentCatergory ? true : false)
             return (
               <Chip
                 key={cat}
                 label={cat}
                 isActive={active}
                 onClick = {() => {
-                  setSelectedCatergory(cat)
-                }}/>
+                  setcurrentCatergory(cat)
+                }}
+                onClose = {(e) => {
+                  e.stopPropagation(); setcurrentCatergory(null)}}
+                />
             )
           })}
         </div>
@@ -69,16 +72,18 @@ export function App() {
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
           <div className="restaurants options">{restaurants.map((rest) => {
-            let active = (rest == selectedRestaurants ? true : false)
+            let active = (rest == currentRestaurant ? true : false)
             return (
               <Chip
                 key={rest}
                 label={rest}
                 isActive={active}
                 onClick = {() => {
-                  setSelectedRestaurants(rest)
+                  setcurrentRestaurant(rest)
                 }
                 }
+                onClose = {(e) => {
+                  e.stopPropagation(); setcurrentRestaurant(null)}}
               />
             )
           })}</div>
