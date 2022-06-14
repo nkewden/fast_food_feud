@@ -1,6 +1,6 @@
-import * as React from "react"
-import { nutritionFacts } from "../../constants"
-import "./NutritionalLabel.css"
+import * as React from "react";
+import { nutritionFacts } from "../../constants";
+import "./NutritionalLabel.css";
 
 export function NutritionalLabel(props) {
   return (
@@ -9,11 +9,20 @@ export function NutritionalLabel(props) {
 
       <h4 className="item-name">{props?.item.item_name}</h4>
 
-      <ul className="fact-list">{nutritionFacts.map((nutrition) => {
-        return (<NutritionalLabelFact key={nutrition.id} label = {nutrition.label} attribute = {nutrition.attribute} item = {props.item}/>)
-      })}</ul>
+      <ul className="fact-list">
+        {nutritionFacts.map((nutrition) => {
+          return (
+            <NutritionalLabelFact
+              key={nutrition.id}
+              label={nutrition.label}
+              attribute={nutrition.attribute}
+              item={props.item}
+            />
+          );
+        })}
+      </ul>
     </div>
-  )
+  );
 }
 
 export function NutritionalLabelFact(props) {
@@ -22,7 +31,7 @@ export function NutritionalLabelFact(props) {
       <span className="fact-label">{props.label}</span>{" "}
       <span className="fact-value">{props.item?.[props.attribute]}</span>
     </li>
-  )
+  );
 }
 
-export default NutritionalLabel
+export default NutritionalLabel;

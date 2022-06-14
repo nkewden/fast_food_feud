@@ -1,11 +1,11 @@
-import * as React from "react"
-import Header from "./components/Header/Header"
-import Instructions from "./components/Instructions/Instructions"
-import { createDataSet } from "./data/dataset"
-import "./App.css"
-import Chip from "./components/Chip/Chip"
-import { useState } from 'react';
-import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel"
+import * as React from "react";
+import Header from "./components/Header/Header";
+import Instructions from "./components/Instructions/Instructions";
+import { createDataSet } from "./data/dataset";
+import "./App.css";
+import Chip from "./components/Chip/Chip";
+import { useState } from "react";
+import NutritionalLabel from "./components/NutritionalLabel/NutritionalLabel";
 
 // don't move this!
 export const appInfo = {
@@ -20,21 +20,23 @@ export const appInfo = {
     noSelectedItem: `Almost there! Choose a menu item and you'll have the fast food facts right at your fingertips!`,
     allSelected: `Great choice! Amazing what a little knowledge can do!`,
   },
-}
+};
 // or this!
-const { data, categories, restaurants } = createDataSet()
+const { data, categories, restaurants } = createDataSet();
 
 export function App() {
-  const [currentCatergory, setcurrentCatergory] = useState("")
-  const [currentRestaurant, setcurrentRestaurant] = useState("")
-  const [currentMenu, setCurrentMenu] = useState(null)
+  const [currentCatergory, setcurrentCatergory] = useState("");
+  const [currentRestaurant, setcurrentRestaurant] = useState("");
+  const [currentMenu, setCurrentMenu] = useState(null);
 
   let currentMenuItems = data.filter((obj) => {
-    
-    return (obj.food_category === currentCatergory && obj.restaurant === currentRestaurant)
-  })
+    return (
+      obj.food_category === currentCatergory &&
+      obj.restaurant === currentRestaurant
+    );
+  });
 
-  console.log(currentMenuItems)
+  console.log(currentMenuItems);
   return (
     <main className="App">
       {/* CATEGORIES COLUMN */}
@@ -42,19 +44,21 @@ export function App() {
         <div className="categories options">
           <h2 className="title">Categories</h2>
           {categories.map((cat) => {
-            let active = (cat == currentCatergory ? true : false)
+            let active = cat == currentCatergory ? true : false;
             return (
               <Chip
                 key={cat}
                 label={cat}
                 isActive={active}
-                onClick = {() => {
-                  setcurrentCatergory(cat)
+                onClick={() => {
+                  setcurrentCatergory(cat);
                 }}
-                onClose = {(e) => {
-                  e.stopPropagation(); setcurrentCatergory(null)}}
-                />
-            )
+                onClose={(e) => {
+                  e.stopPropagation();
+                  setcurrentCatergory(null);
+                }}
+              />
+            );
           })}
         </div>
       </div>
@@ -62,54 +66,61 @@ export function App() {
       {/* MAIN COLUMN */}
       <div className="container">
         <Header
-          title = {appInfo.title}
-          tagline = {appInfo.tagline}
-          description = {appInfo.description}
+          title={appInfo.title}
+          tagline={appInfo.tagline}
+          description={appInfo.description}
         />
-        
 
         {/* RESTAURANTS ROW */}
         <div className="RestaurantsRow">
           <h2 className="title">Restaurants</h2>
-          <div className="restaurants options">{restaurants.map((rest) => {
-            let active = (rest == currentRestaurant ? true : false)
-            return (
-              <Chip
-                key={rest}
-                label={rest}
-                isActive={active}
-                onClick = {() => {
-                  setcurrentRestaurant(rest)
-                }
-                }
-                onClose = {(e) => {
-                  e.stopPropagation(); setcurrentRestaurant(null)}}
-              />
-            )
-          })}</div>
+          <div className="restaurants options">
+            {restaurants.map((rest) => {
+              let active = rest == currentRestaurant ? true : false;
+              return (
+                <Chip
+                  key={rest}
+                  label={rest}
+                  isActive={active}
+                  onClick={() => {
+                    setcurrentRestaurant(rest);
+                  }}
+                  onClose={(e) => {
+                    e.stopPropagation();
+                    setcurrentRestaurant(null);
+                  }}
+                />
+              );
+            })}
+          </div>
         </div>
 
-        <Instructions 
-        instructions = {appInfo.instructions.start}/>
+        <Instructions instructions={appInfo.instructions.start} />
 
         {/* MENU DISPLAY */}
         <div className="MenuDisplay display">
           <div className="MenuItemButtons menu-items">
             <h2 className="title">Menu Items</h2>
             {currentMenuItems.map((menuItem) => {
-              return (<Chip 
-                key = {menuItem.item_name} 
-                label={menuItem.item_name} 
-                isActive={currentMenu === menuItem} 
-                onClick={() => 
-                  setCurrentMenu(menuItem)}/>)
-            })} 
+              return (
+                <Chip
+                  key={menuItem.item_name}
+                  label={menuItem.item_name}
+                  isActive={currentMenu === menuItem}
+                  onClick={() => setCurrentMenu(menuItem)}
+                  onClose={(e) => {
+                    e.stopPropagation();
+                    setCurrentMenu(null);
+                  }}
+                />
+              );
+            })}
           </div>
 
           {/* NUTRITION FACTS */}
           <div className="NutritionFacts nutrition-facts">
-            {currentMenu != null && <NutritionalLabel item = {currentMenu}/>}
-            </div>
+            {currentMenu != null && <NutritionalLabel item={currentMenu} />}
+          </div>
         </div>
 
         <div className="data-sources">
@@ -117,7 +128,7 @@ export function App() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
